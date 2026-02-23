@@ -3,6 +3,12 @@ import * as sqlite3 from 'sqlite3';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
+// Aqui utilizam-se as promises para facilitar o tratamento de objetos que não necessariamente são
+// conhecidos no momento da escrita do código.
+
+// O async ainda é utilizado para garantir que o método retorne uma Promise, 
+// o que é essencial para a integração com o controller 
+
 @Injectable()
 export class ProdutosService implements OnModuleInit {
   private db: sqlite3.Database;
@@ -24,7 +30,7 @@ export class ProdutosService implements OnModuleInit {
   }
 
  // Cria um novo registro no banco
-  create(dto: CreateProdutoDto) {
+ async create(dto: CreateProdutoDto): Promise<any> { // Adicionado async e definindo o tipo de retorno como any
     return new Promise((resolve, reject) => {
       const query = `INSERT INTO produtos (nome, preco) VALUES (?, ?)`;
       this.db.run(query, [dto.nome, dto.preco], function(err) {
@@ -41,7 +47,7 @@ export class ProdutosService implements OnModuleInit {
 } // os demais tratamentos de erro são originados das validações do dto, no create-produto.dto.ts
 
   // Retorna todos os produtos cadastrados
-  findAll() {
+  async findAll(): Promise<any[]> { // Adicionado async e definindo o tipo de retorno como any[]
    return new Promise((resolve, reject) => {
       this.db.all('SELECT * FROM produtos', [], (err, rows) => {
         if (err) reject(err);
@@ -51,7 +57,7 @@ export class ProdutosService implements OnModuleInit {
   }
 
   // Busca um produto específico pelo ID
-  findOne(id: number) {
+  async findOne(id: number): Promise<any> { // Adicionado async e definindo o tipo de retorno como any
     return new Promise((resolve, reject) => {
       this.db.get('SELECT * FROM produtos WHERE id = ?', [id], (err, row) => {
         if (err) {
@@ -67,7 +73,7 @@ export class ProdutosService implements OnModuleInit {
 });
 } 
   // Atualiza os dados de um produto existente
- update(id: number, dto: UpdateProdutoDto) {
+ async update(id: number, dto: UpdateProdutoDto): Promise<any> { // Adicionado async e definindo o tipo de retorno como any
   return new Promise((resolve, reject) => {
     const campos = Object.keys(dto);
     const valores = Object.values(dto);
@@ -88,7 +94,7 @@ export class ProdutosService implements OnModuleInit {
   } //  os demais tratamentos de erro são originados das validações do dto, no update-produto.dto.ts
 
   // Remove um produto do banco de dados
-  remove(id: number) {
+  async remove(id: number): Promise<any> { // Adicionado async e definindo o tipo de retorno como any
     return new Promise((resolve, reject) => {
       this.db.run('DELETE FROM produtos WHERE id = ?', [id], function(err) {
         if (err) {
