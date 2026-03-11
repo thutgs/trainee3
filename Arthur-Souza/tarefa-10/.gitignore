@@ -1,0 +1,15 @@
+# Dependências (Nunca suba esta pasta!)
+node_modules/
+
+# Compilação (Arquivos JS gerados a partir do TS)
+dist/
+out/
+
+# Logs e arquivos temporários
+*.log
+npm-debug.log*
+.DS_Store
+
+# Configurações locais de IDE
+.vscode/
+.idea/
