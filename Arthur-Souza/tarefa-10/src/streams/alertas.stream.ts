@@ -18,5 +18,6 @@ export const alertas$ = of(null).pipe(
       severidade: severidades[Math.floor(Math.random() * severidades.length)]
     };
   }),
-  repeat() // repeat é um operador que repete a sequência de emissão do Observable, garantindo que o processo de geração de alertas continue indefinidamente
+  repeat() // repeat é um operador que repete a sequência de emissão do Observable, garantindo que o processo de geração de alertas
+  //  continue indefinidamente. Aqui é necessário pois não estamos usando Interval, que nunca para por natureza
 );

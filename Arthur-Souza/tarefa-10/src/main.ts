@@ -24,12 +24,7 @@ gps$.pipe(takeUntil(destroy$)).subscribe({
 });
 
 pedidos$.pipe(
-  takeUntil(destroy$),
-  retry(3), // Tenta novamente 3 vezes antes de lançar o erro para o catchError,
-  //  então só será apresentado um erro se tiver falha 4 vezes seguidas
-  catchError(err => of({ status: 'erro', mensagem: err.message }))
-  // Emite um objeto de erro para o fluxo, mas não para o sistema inteiro, permitindo
-  // que continue funcionando mesmo com erros ocasionais
+  takeUntil(destroy$)
 ).subscribe(dado => console.log('[PEDIDO]', dado));
 
 alertas$.pipe(takeUntil(destroy$),
