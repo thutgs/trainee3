@@ -1,0 +1,180 @@
+<!-- O html não é apenas visual, é também usado para realizar as validações -->
+
+<div class="container"> 
+  <div class="header">
+    <h2>Censo Socioeconômico</h2>
+    
+    <!-- Texto Introdutório -->
+    <p class="intro-text">
+      Este censo visa coletar dados conhecer melhor nossos funcionários. 
+      Suas respostas são fundamentais para o desenvolvimento de um ambiente mais inclusivo na FGV.
+      O preenchimento leva cerca de 2 minutos.
+    </p>
+  </div>
+
+  <!-- Fazendo a vinculação do formulário com o componente -->
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)"> 
+  <!-- ngsubmit faz a ligação entre o evento de submissão do formulário e o método onSubmit do componente -->
+
+   
+
+  <!-- ngModel aqui é usado para vincular o valor do input ao objeto dadosCenso, no app.ts -->
+
+   <!-- utlizou-se required minlength="3" para validar o campo de nome, que deve ter pelo menos 3 caracteres -->
+   <!-- *ngIf foi usado para exibir as mensagens de erro condicionais -->
+
+    <!-- 1. NOME COMPLETO -->
+    <div class="form-group">
+      <label>Nome Completo:</label>
+      <input type="text" name="nome" [(ngModel)]="dadosCenso.nomeCompleto" 
+             required minlength="3" #nome="ngModel" placeholder="Digite seu nome">
+      <div *ngIf="nome.invalid && nome.touched" class="error-msg">
+        Nome é obrigatório (mínimo 3 letras).
+      </div>
+    </div>
+
+
+  <!-- O #email = "ngModel" é usado para acessar o estado de validação do campo, verifcando se ele está invalidado ou se foi tocado -->
+  <!-- Utilizou-se "required" para exigir que o campo seja preenchido, e "email" para validar o formato do e-mail -->
+
+    <!-- 2. E-MAIL -->
+    <div class="form-group">
+      <label>E-mail Pessoal:</label>
+      <input type="email" name="email" [(ngModel)]="dadosCenso.email" 
+             required email #email="ngModel" placeholder="exemplo@gmail.com">
+      <div *ngIf="email.invalid && email.touched" class="error-msg">
+        Informe um e-mail válido.
+      </div>
+    </div>
+  
+
+  <!-- Aqui utilizou-se pattern para validar o formato do CPF, por meio de regex. O \d significa dígito numérico -->
+  <!-- Também é obrigatório --> 
+
+    <!-- 3. CPF -->
+    <div class="form-group">
+      <label>CPF:</label>
+      <input type="text" name="cpf" [(ngModel)]="dadosCenso.cpf" 
+             required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" #cpf="ngModel"
+             placeholder="000.000.000-00">
+      <div *ngIf="cpf.invalid && cpf.touched" class="error-msg">
+        CPF inválido (use o formato 000.000.000-00).
+      </div>
+    </div>
+
+    <!-- Aqui utilizou-se type="date" para validar o formato da data de nascimento -->
+
+    <!-- 4. DATA DE NASCIMENTO -->
+    <div class="form-group">
+      <label>Data de Nascimento:</label>
+      <input type="date" name="dataNasc" [(ngModel)]="dadosCenso.dataNascimento" 
+             required #dataNasc="ngModel">
+      <div *ngIf="dataNasc.invalid && dataNasc.touched" class="error-msg">
+        Data de nascimento é obrigatória.
+      </div>
+    </div>
+
+    <!-- Aqui também utilizou-se pattern para validar o formato do telefone -->
+
+    <!-- 5. TELEFONE -->
+    <div class="form-group">
+      <label>Telefone:</label>
+      <input type="text" name="tel" [(ngModel)]="dadosCenso.telefone" 
+             required pattern="\(\d{2}\) \d{5}-\d{4}" #tel="ngModel"
+             placeholder="(00) 00000-0000">
+      <div *ngIf="tel.invalid && tel.touched" class="error-msg">
+        Formato: (00) 00000-0000.
+      </div>
+    </div>
+
+    <!-- Aqui utilizou-se <select> para criar um menu suspenso, em que cada opção é designada pelo <option>, que é um elemento HTML -->
+
+    <!-- 6. GÊNERO -->
+    <div class="form-group">
+      <label>Gênero:</label>
+      <select name="genero" [(ngModel)]="dadosCenso.genero" required #genero="ngModel">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+        <option value="outro">Outro / Não binário</option>
+        <option value="prefiro-nao-informar">Prefiro não informar</option>
+      </select>
+      <div *ngIf="genero.invalid && genero.touched" class="error-msg">
+        Selecione uma opção.
+      </div>
+    </div>
+
+    <!-- Aqui também utilizou-se <select> para criar um menu suspenso -->
+
+    <!-- 7. ESTADO CIVIL -->
+    <div class="form-group">
+      <label>Estado Civil:</label>
+      <select name="estadoCivil" [(ngModel)]="dadosCenso.estadoCivil" required #estCivil="ngModel">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="solteiro">Solteiro(a)</option>
+        <option value="casado">Casado(a)</option>
+        <option value="divorciado">Divorciado(a)</option>
+        <option value="viuvo">Viúvo(a)</option>
+      </select>
+    </div>
+
+    <!-- 8. RENDA FAMILIAR -->
+    <div class="form-group">
+      <label>Faixa de Renda Familiar Mensal:</label>
+      <select name="renda" [(ngModel)]="dadosCenso.rendaMensal" required #renda="ngModel">
+        <option value="" disabled selected>Selecione a faixa salarial...</option>
+        <option value="0-2">Até 2 salários mínimos</option>
+        <option value="2-4">De 2 a 4 salários mínimos</option>
+        <option value="4-10">De 4 a 10 salários mínimos</option>
+        <option value="10-20">De 10 a 20 salários mínimos</option>
+        <option value="20+">Acima de 20 salários mínimos</option>
+        <option value="sem-renda">Sem renda</option>
+      </select>
+      <div *ngIf="renda.invalid && renda.touched" class="error-msg">
+        A seleção da faixa de renda é obrigatória.
+      </div>
+    </div>
+
+    <!-- 9. GRAU DE ESCOLARIDADE -->
+    <div class="form-group">
+      <label>Grau de Escolaridade:</label>
+      <select name="escolaridade" [(ngModel)]="dadosCenso.escolaridade" required #esc="ngModel">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="medio">Ensino Médio</option>
+        <option value="graduacao-inc">Graduação Incompleta</option>
+        <option value="graduacao-comp">Graduação Completa</option>
+        <option value="pos">Pós-Graduação / Mestrado / Doutorado</option>
+      </select>
+    </div>
+
+    <!-- 10. CIDADE/ESTADO -->
+    <div class="form-group">
+      <label>Cidade / Estado:</label>
+      <input type="text" name="localidade" [(ngModel)]="dadosCenso.cidadeEstado" 
+             required #local="ngModel" placeholder="Ex: São Paulo - SP">
+      <div *ngIf="local.invalid && local.touched" class="error-msg">
+        É obrigatório informar a cidade e o estado.
+      </div>
+    </div>
+
+    <hr> <!-- Linha horizontal para separar o formulário do botão -->
+    
+    <!-- Adicionando botão de envio, associado ao OnSubmit do formulário -->
+    <!-- O [disabled]="f.invalid" desativa o botão se o formulário for inválido -->
+
+    <button type="submit" [disabled]="f.invalid">
+      Finalizar e Enviar Dados
+    </button>
+
+      <!-- Mensagem de Sucesso -->
+   <div *ngIf="enviado" class="success-banner">
+    ✅ Dados enviados com sucesso! Obrigado pela participação.
+   </div>
+
+
+    <p *ngIf="f.invalid && f.touched" style="text-align: center; color: #666; font-size: 11px; margin-top: 10px;">
+      * Preencha todos os campos corretamente para realizar o envio.
+    </p>
+
+  </form>
+</div>
