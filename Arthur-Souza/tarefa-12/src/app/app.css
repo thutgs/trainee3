@@ -1,0 +1,101 @@
+/* :host é usado para estilizar o componente padrão */
+
+:host {
+  display: flex; /* serve para centralizar o conteúdo horizontalmente */
+  justify-content: center; /* serve para centralizar o conteúdo verticalmente */
+  background-color: #f4f7f9; /* Cor de fundo do formulário */
+  min-height: 100vh; /* Altura mínima para preencher a tela */
+  padding: 20px; /* Espaçamento ao redor do formulário */
+}
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* Define uma largura padrão para ambos */
+}
+
+/* definindo o estilo do container do formulário */
+.container { 
+  background: white;  
+  padding: 30px; 
+  max-width: 550px; 
+  width: 100%;
+  border-top: 6px solid #003566; /* Detalhe no topo azul */
+  border-radius: 8px; /* Cantos arredondados */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra suave */
+  font-family: 'Segoe UI', Roboto, sans-serif; /* Fonte do formulário */
+}
+
+/* Container do Teste Record */
+.record-wrapper {
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* definindo o estilo dos headers do formulário */
+.header { text-align: center; margin-bottom: 25px; } 
+.header h2 { color: #003566; margin-top: 10px; font-size: 1.5rem; }
+
+/* definindo o estilo dos grupos de formulário. Os grupos de formulário são os elementos que contêm os campos do formulário */
+.form-group { margin-bottom: 18px; }
+
+/* definindo o estilo dos títulos dos campos do formulário */
+label { 
+  display: block; 
+  font-weight: 600; 
+  color: #333; 
+  margin-bottom: 5px; 
+  font-size: 14px;
+}
+
+/* definindo o estilo dos campos do formulário */
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box; /* Garante que o padding não quebre a largura */
+  transition: border-color 0.2s;
+}
+
+/* definindo o estilo dos campos do formulário quando estão sendo tocados */
+input:focus, select:focus {
+  outline: none;
+  border-color: #003566;
+  box-shadow: 0 0 0 2px rgba(0,53,102,0.1);
+}
+
+/* definindo o estilo dos campos do formulário quando estão inválidos e foram tocados */
+input.ng-invalid.ng-touched, 
+select.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+/* definindo o estilo das mensagens de erro */
+.error-msg { 
+  color: #dc3545; 
+  font-size: 11px; 
+  margin-top: 4px; 
+  font-weight: 500;
+}
+
+/* definindo o estilo dos botões */
+button { 
+  background-color: #003566; 
+  color: white; 
+  padding: 12px; 
+  border: none; 
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer; 
+  width: 100%; 
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+/* definindo o estilo dos botões quando estão sendo hover (passando o mouse por cima) */
+button:hover:not(:disabled) { background-color: #002850; }
+button:disabled { background-color: #ccc; cursor: not-allowed; }

@@ -1,0 +1,173 @@
+<div class="main-wrapper">
+  <div class="container">
+    <div class="header">
+      <h2>Censo Acadêmico Socioeconômico</h2>
+      <p class="intro-text">
+        Este censo visa coletar dados conhecer melhor nossos funcionários. 
+        Suas respostas são fundamentais para o desenvolvimento de um ambiente mais inclusivo na FGV.
+        O preenchimento leva cerca de 2 minutos.
+      </p>
+    </div>
+
+
+  <!-- A principal mudança aqui é que estamos usando Reactive Forms, com a principal mudança sendo que as validações não precisam
+    ser feitas diretamente no template, mas sim definidas no componente, o que torna o código mais organizado e dinâmico. -->
+
+  <!-- Fazendo a vinculação do formulário com o componente usando Reactive Forms -->
+  <form [formGroup]="formCenso" (ngSubmit)="onSubmit()">
+  
+
+  <!--   criando os campos do formulário usando formControlName para vincular cada campo ao seu respectivo FormControl
+      definido no FormGroup do componente.-->
+
+  
+      <!-- Nme Completo -->
+    <div class="form-group">
+      <label>Nome Completo:</label>
+      <input type="text" formControlName="nomeCompleto" placeholder="Digite seu nome">
+      @if (formCenso.get('nomeCompleto')?.invalid && formCenso.get('nomeCompleto')?.touched) {
+        <div class="error-msg">Nome é obrigatório (mínimo 3 letras).</div>
+      }
+    </div>
+
+      <!-- E-mail -->
+    <div class="form-group">
+      <label>E-mail Pessoal:</label>
+      <input type="email" formControlName="email" placeholder="exemplo@gmail.com">
+      @if (formCenso.get('email')?.invalid && formCenso.get('email')?.touched) {
+        <div class="error-msg">Informe um e-mail válido.</div>
+      }
+    </div>
+
+      <!-- CPF -->
+    <div class="form-group">
+      <label>CPF:</label>
+      <input type="text" formControlName="cpf" placeholder="000.000.000-00">
+      @if (formCenso.get('cpf')?.invalid && formCenso.get('cpf')?.touched) {
+        <div class="error-msg">CPF inválido (use o formato 000.000.000-00).</div>
+      }
+    </div>
+
+      <!-- Data de Nascimento -->
+    <div class="form-group">
+      <label>Data de Nascimento:</label>
+      <input type="date" formControlName="dataNascimento">
+      @if (formCenso.get('dataNascimento')?.invalid && formCenso.get('dataNascimento')?.touched) {
+        <div class="error-msg">Data de nascimento é obrigatória.</div>
+      }
+    </div>
+
+        <!-- Telefone -->
+    <div class="form-group">
+      <label>Telefone:</label>
+      <input type="text" formControlName="telefone" placeholder="(00) 00000-0000">
+      @if (formCenso.get('telefone')?.invalid && formCenso.get('telefone')?.touched) {
+        <div class="error-msg">Formato: (00) 00000-0000.</div>
+      }
+    </div>
+
+    <!-- Gênero -->
+    <div class="form-group">
+      <label>Gênero:</label>
+      <select formControlName="genero">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+        <option value="outro">Outro / Não binário</option>
+        <option value="prefiro-nao-informar">Prefiro não informar</option>
+      </select>
+    </div>
+
+    <!-- Estado Civil -->
+    <div class="form-group">
+      <label>Estado Civil:</label>
+      <select formControlName="estadoCivil">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="solteiro">Solteiro(a)</option>
+        <option value="casado">Casado(a)</option>
+        <option value="divorciado">Divorciado(a)</option>
+        <option value="viuvo">Viúvo(a)</option>
+      </select>
+    </div>
+
+    <!-- Faixa de Renda Familiar Mensal -->
+    <div class="form-group">
+      <label>Faixa de Renda Familiar Mensal:</label>
+      <select formControlName="rendaMensal">
+        <option value="" disabled selected>Selecione a faixa salarial...</option>
+        <option value="0-2">Até 2 salários mínimos</option>
+        <option value="2-4">De 2 a 4 salários mínimos</option>
+        <option value="4-10">De 4 a 10 salários mínimos</option>
+        <option value="10-20">De 10 a 20 salários mínimos</option>
+        <option value="20+">Acima de 20 salários mínimos</option>
+        <option value="sem-renda">Sem renda</option>
+      </select>
+    </div>
+
+    <!-- Grau de Escolaridade -->
+    <div class="form-group">
+      <label>Grau de Escolaridade:</label>
+      <select formControlName="escolaridade">
+        <option value="" disabled selected>Selecione...</option>
+        <option value="medio">Ensino Médio</option>
+        <option value="graduacao-inc">Graduação Incompleta</option>
+        <option value="graduacao-comp">Graduação Completa</option>
+        <option value="pos">Pós-Graduação / Mestrado / Doutorado</option>
+      </select>
+    </div>
+
+    <!-- Cidade/Estado -->
+     <div class="form-group">
+      <label>Cidade / Estado:</label>
+      <input type="text" formControlName="localidade" placeholder="Ex: São Paulo - SP">
+    </div>
+
+    <!-- Idiomas Fluentes -->
+    <div class="form-group">
+  <label>Idiomas Fluentes:</label>
+  <div formArrayName="idiomas">
+    @for (idiomaControl of idiomas.controls; track $index) {
+      <div class="idioma-item">
+        <input [formControlName]="$index" placeholder="Ex: Inglês, Espanhol...">
+        
+        <!-- Botão para remover idioma (exceto o primeiro, que é adicionado automaticamente no início do formulário) -->
+        @if ($index > 0) {
+          <button type="button" (click)="removerIdioma($index)" class="btn-remove">
+            Remover
+          </button>
+        }
+      </div>
+    }
+
+      <!-- Criando um botão para adicionar novos campos de idioma, que chama o método adicionarIdioma do componente
+        para adicionar um novo FormControl ao FormArray de idiomas. -->
+      </div>
+      <button type="button" (click)="adicionarIdioma()" class="btn-add">
+        + Adicionar Idioma
+      </button>
+    </div>
+
+    <button type="submit" [disabled]="formCenso.invalid">
+      Finalizar e Enviar
+    </button>
+
+    @if (enviado) {
+      <div class="success-banner">
+        ✅ Dados enviados com sucesso!
+      </div>
+    }
+
+    @if (formCenso.invalid && formCenso.touched) {
+      <p style="text-align: center; color: #666; font-size: 11px; margin-top: 10px;">
+        * Preencha todos os campos obrigatórios corretamente.
+      </p>
+    }
+
+  </form>
+</div>
+
+<div class="record-wrapper">
+    <hr class="separator">
+    <app-teste-record></app-teste-record>
+  </div>
+</div>
