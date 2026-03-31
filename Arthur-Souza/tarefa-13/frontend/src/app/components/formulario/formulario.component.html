@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: #1e3a8a;">
+          {{ id_Edicao ? 'Editar Produto' : 'Novo Produto' }} <!-- Aqui utiliza-se uma condicional para mostrar "Editar Produto" se
+           o usuário estiver editando, ou "Novo Produto" se estiver criando -->
+        </h2>
+        <button class="btn btn-outline-secondary" routerLink="/">Voltar</button> <!-- Botão para voltar à listagem de produtos -->
+      </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <!-- Conectando o formulário reativo ao produtoForm definido no TypeScript, e que chama a função salvar() ao ser submetido -->
+          <form [formGroup]="produtoForm" (ngSubmit)="salvar()">
+            
+            <!-- Campo de Nome do Produto -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Nome do Produto</label> 
+              <input type="text" class="form-control" formControlName="nome" placeholder="Ex: Notebook">
+              
+              <div class="text-danger mt-1" *ngIf="produtoForm.get('nome')?.invalid && produtoForm.get('nome')?.touched">
+                <small>O nome é obrigatório e deve ter no mínimo 3 caracteres.</small>
+              </div>
+            </div>
+
+
+            <!-- Campo de Categoria -->
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Categoria</label>
+                <select class="form-select" formControlName="categoria">
+                  <option value="" disabled selected>Selecione...</option>
+                  <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+                </select>
+                <div class="text-danger mt-1" *ngIf="produtoForm.get('categoria')?.invalid && produtoForm.get('categoria')?.touched">
+                  <small>Selecione uma categoria.</small>
+                </div>
+              </div>
+
+              <!-- Campo de Quantidade em Estoque -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Estoque</label>
+                <input type="number" class="form-control" formControlName="qtd_estoque">
+                <div class="text-danger mt-1" *ngIf="produtoForm.get('qtd_estoque')?.invalid && produtoForm.get('qtd_estoque')?.touched">
+                  <small>Insira uma quantidade em estoque maior que zero.</small>
+                </div>
+              </div>
+
+              <!-- Campo de Preço -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Preço (R$)</label>
+                <input type="number" step="10" class="form-control" formControlName="preco"> <!-- Utilizando step="10" para facilitar a inserção de preços, pulando de 10 em 10 -->
+                <div class="text-danger mt-1" *ngIf="produtoForm.get('preco')?.invalid && produtoForm.get('preco')?.touched">
+                  <small>Insira um preço maior que zero.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-success btn-lg">
+                <!-- Botão para salvar o produto, condicionalmente mostrando "Atualizar Produto" se o usuário estiver editando,
+                  ou "Salvar Produto" se o usuário estiver criando -->
+                {{ id_Edicao ? 'Atualizar Produto' : 'Salvar Produto' }}
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

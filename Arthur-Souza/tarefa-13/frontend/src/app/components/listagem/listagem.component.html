@@ -1,0 +1,78 @@
+<div class="container mt-5">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Título da página -->
+    <h2 class="fw-bold" style="color: #1e3a8a;">Monitoramento do Estoque de Produtos</h2>
+
+    <!-- Barra de pesquisa por nome do produto -->
+  <div class="d-flex gap-3">
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Pesquisar por nome do produto..."
+        style="width: 280px;"
+        (input)="filtrarProdutos($event)" 
+      >
+
+
+          <!-- Botão para adicionar novo produto -->
+  <button class="btn btn-success shadow-sm" routerLink="/novo">
+        + Adicionar novo Produto
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Tabela da listagem dos produtos -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <table class="table table-hover table-striped mb-0 align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th class="fw-semibold py-3">Nome do Produto</th>
+            <th class="fw-semibold py-3">Categoria</th>
+            <th class="fw-semibold py-3">Estoque</th>
+            <th class="fw-semibold py-3">Preço Unitário</th>
+            <th class="fw-semibold py-3">Criado em</th>
+            <th class="fw-semibold py-3">Última Edição</th>
+            <th class="text-center fw-semibold py-3">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (produto of produtosFiltrados(); track produto.id) {<!-- para cada produto na lista de produtos, renderiza uma linha na tabela -->
+            <tr>
+              <td class="fw-semibold">{{ produto.nome }}</td>
+              
+              <td>{{ produto.categoria }}</td>
+              
+              <td>{{ produto.qtd_estoque }} un.</td>
+              
+              <td class="text-success fw-bold">R$ {{ produto.preco }}</td>
+
+              <td>{{ produto.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ produto.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              
+              <!-- Coluna de Ações -->
+              <td class="text-center">
+                <!-- Botão de Editar, que redireciona para a página de edição do produto -->
+                <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/editar', produto.id]">
+                  Editar
+                </button>
+                <!-- Botão de Excluir, que chama o fluxo de exclusão do produto -->
+                <button class="btn btn-sm btn-outline-danger" (click)="produto.id ? excluir(produto.id) : null">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          } @empty { <!-- Exibe uma mensagem quando não há produtos cadastrados -->
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">
+                Nenhum produto cadastrado no sistema.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
